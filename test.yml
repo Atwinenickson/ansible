@@ -1,0 +1,38 @@
+--- 
+- 
+  become: true
+  hosts: all
+  tasks: 
+    - 
+      dnf: 
+        update_cache: true
+        update_only: true
+      name: "install updates (CentOS)"
+      when: "ansible_distribution == \"CentOS\""
+    - 
+      apt: 
+        update_cache: true
+        upgrade: dist
+      name: "install updates (Ubuntu)"
+      when: "ansible_distribution == \"Ubuntu\""
+- 
+  become: true
+  hosts: web_servers
+  tasks: 
+    - 
+      apt: 
+        name: 
+          - apache2
+          - libapache2-mod-php
+        state: latest
+      name: "install apache and php for Ubuntu servers"
+      when: "ansible_distribution == \"Ubuntu\""
+    - 
+      dnf: 
+        name: 
+          - httpd
+          - php
+        state: latest
+      name: "install apache and php for CentOS servers"
+      when: "ansible_distribution == \"CentOS\""
+

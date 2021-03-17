@@ -1,0 +1,49 @@
+--- 
+- 
+  hosts: all
+  become: true
+  tasks: 
+    - 
+      dnf: 
+        update_cache: true
+        update_only: true
+      name: "install updates (CentOs)"
+      when: "ansible_distribution == \"CentOs\""
+    - 
+      apt: 
+        update_cache: true
+        upgrade: dist
+      name: "install updates (Ubuntu)"
+      when: "ansible_distribution == \"Ubuntu\""
+    - 
+      community.general.pacman: 
+        update_cache: true
+        upgrade: true
+      name: "install updates (Manjaro)"
+      when: "ansible_distribution == \"Manjaro\""
+- 
+  hosts: web_servers
+  become: true
+  tasks: 
+    - 
+      apt: 
+        name: 
+          - apache2
+          - libapache2-mod-php
+        state: latest
+        when: "ansible_distribution == \"Ubuntu\""
+      name: "install apache and php for Ubuntu web_servers"
+    - 
+      dnf: 
+        name: 
+          - httpd
+          - php
+        state: latest
+        when: "ansible_distribution == \"CentOs\""
+      name: "install apache and php for CentOs servers"
+    - 
+      community.general.pacman: 
+        name: "-httpd -php"
+        state: latest
+        when: "ansible_distribution == \"Manjaro\""
+      name: "install apache and php for Manjaro Servers"

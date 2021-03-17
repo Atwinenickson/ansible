@@ -1,0 +1,9 @@
+---
+  - name: "Playing with Ansible and Git"
+    hosts: localhost
+    connection: local 
+    tasks:
+    - name: full system upgrade
+      pacman:
+        update_cache: yes
+        upgrade: yes

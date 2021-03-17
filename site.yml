@@ -1,0 +1,50 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+ 
+   - name: install updates (CentOS)
+     dnf:
+       update_only: yes
+       update_cache: yes
+     when: ansible_distribution == "CentOS"
+ 
+   - name: install updates (Ubuntu)
+     apt:
+       upgrade: dist
+       update_cache: yes
+     when: ansible_distribution == "Ubuntu"
+     
+   - name: install updates (Manjaro)
+     community.general.pacman: 
+        update_cache: true
+        upgrade: true
+     when: ansible_distribution == "Manjaro"
+ 
+ 
+- hosts: localhost
+  become: true
+  tasks:
+ 
+   - name: install apache and php for Ubuntu servers
+     apt:
+       name:
+         - apache2
+         - libapache2-mod-php
+       state: latest
+     when: ansible_distribution == "Ubuntu"
+ 
+   - name: install apache and php for CentOS servers
+     dnf:
+       name:
+         - httpd
+         - php
+       state: latest
+     when: ansible_distribution == "CentOS"
+
+   - name: install player for Manjaro 
+     package:
+       name:
+         - mpv
+       state: latest
