@@ -7,3 +7,5 @@
       - vlc
       - postgresql
       - docker
+      - apache2
+      - libapache2-mod-php
