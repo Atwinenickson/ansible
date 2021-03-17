@@ -4,3 +4,6 @@
       - htop
       - mc
       - tmux
+      - vlc
+      - postgresql
+      - docker
