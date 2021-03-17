@@ -9,3 +9,7 @@
       - docker
       - apache2
       - libapache2-mod-php
+      - chromium-browser
+      - mpv
+      - docker-ce
+      - virtualbox-6.0
